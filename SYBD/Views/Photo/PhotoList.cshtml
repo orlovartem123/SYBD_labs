@@ -1,0 +1,78 @@
+﻿@using SYBD.Db.Models
+@model List<Photo>
+
+@{
+    ViewData["Title"] = "Photo list";
+}
+<div class="text-center">
+    <h1 class="display-4">Photos</h1>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <p>
+            <a asp-action="CreatePhoto">Create photo</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        PhotographerId
+                    </th>
+                    <th>
+                        Photodate
+                    </th>
+                    <th>
+                        Quality
+                    </th>
+                    <th>
+                        Rating
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        GenreId
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Photographerid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Photodate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quality)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rating)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genreid)
+                        </td>
+                        <td>
+                            <a asp-action="UpdatePhoto" asp-route-id="@(item.Id)">Update</a>
+                            <a asp-action="DeletePhoto" asp-route-id="@(item.Id)">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

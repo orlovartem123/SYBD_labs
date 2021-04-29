@@ -1,0 +1,50 @@
+﻿@using SYBD.Db.Models
+@model List<Repository>
+
+@{
+    ViewData["Title"] = "Workload";
+}
+<div class="text-center">
+    <h1 class="display-4">Workload</h1>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Stock id
+                    </th>
+                    <th>
+                        Photo id
+                    </th>
+                    <th>
+                        Count
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stockid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Photoid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Count)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

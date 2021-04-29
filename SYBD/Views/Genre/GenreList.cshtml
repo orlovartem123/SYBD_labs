@@ -1,0 +1,48 @@
+﻿@using SYBD.Db.Models
+@model List<Genre>
+
+@{
+    ViewData["Title"] = "Genre list";
+}
+<div class="text-center">
+    <h1 class="display-4">Genres</h1>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <p>
+            <a asp-action="CreateGenre">Create genre</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <a asp-action="UpdateGenre" asp-route-id="@(item.Id)">Update</a>
+                            <a asp-action="DeleteGenre" asp-route-id="@(item.Id)">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,60 @@
+﻿@using SYBD.Db.Models
+@model List<Photographer>
+
+@{
+    ViewData["Title"] = "Photographer list";
+}
+<div class="text-center">
+    <h1 class="display-4">Photographers</h1>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <p>
+            <a asp-action="CreatePhotographer">Create photographer</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Age)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            <a asp-action="UpdatePhotographer" asp-route-id="@(item.Id)">Update</a>
+                            <a asp-action="DeletePhotographer" asp-route-id="@(item.Id)">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

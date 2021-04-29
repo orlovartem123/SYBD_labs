@@ -1,0 +1,31 @@
+﻿@model SYBD.Db.Models.Genre
+
+@{
+    ViewData["Title"] = "Create genre";
+}
+<div class="text-center">
+    <h2 class="display-4">Create genre</h2>
+</div>
+
+﻿<form class="container-fluid" style="max-width: 580px;" asp-action="CreateGenre">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <div class="row justify-content-between">
+            <label class="col-lg-4">
+                Genre name
+            </label>
+            <div class="col-lg-8">
+                <input asp-for="Name" type="text" name="name" required class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-12">
+            <button type="submit" style="min-width: 100px" class="btn btn-sm btn-light">
+                Create
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,65 @@
+﻿@using SYBD.Db.Models
+@model List<Sale>
+
+@{
+    ViewData["Title"] = "Sale list";
+}
+<div class="text-center">
+    <h1 class="display-4">Sales</h1>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <p>
+            <a asp-action="CreateSale">Create sale</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Sold date
+                    </th>
+                    <th>
+                        Stock Id
+                    </th>
+                    <th>
+                        Photo Id
+                    </th>
+                    <th>
+                        Count
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Solddate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stockid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Photoid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Count)
+                        </td>
+                        <td>
+                            <a asp-action="DeleteSale" asp-route-id="@(item.Id)">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

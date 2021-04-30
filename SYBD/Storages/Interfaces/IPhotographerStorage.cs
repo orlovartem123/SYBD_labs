@@ -7,6 +7,7 @@ namespace SYBD.Storages.Interfaces
     {
         List<Photographer> GetFullList();
         Photographer GetElement(int id);
+        (string def, string index) StartTest();
         void Insert(Photographer model);
         void Update(Photographer model);
         void Delete(int id);

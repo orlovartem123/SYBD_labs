@@ -1,4 +1,5 @@
-﻿using SYBD.Db;
+﻿using Microsoft.EntityFrameworkCore;
+using SYBD.Db;
 using SYBD.Db.Models;
 using SYBD.Storages.Interfaces;
 using System;
@@ -69,5 +70,42 @@ namespace SYBD.Storages
                 }
             }
         }
+
+        public (string def, string index) StartTest()
+        {
+            string def = "";
+            string index = "";
+            Random rnd = new Random();
+            using (var context = new PhotoGalleryContext())
+            {
+                for (int i = 0; i < 500; i++)
+                {
+                    var model = new Photographer();
+                    model.Name = "Test name" + i;
+                    model.Age = rnd.Next(600);
+                    model.Status = "TestStatus_" + i;
+                    Insert(model);
+                }
+
+                //default
+                var startTime = System.Diagnostics.Stopwatch.StartNew();
+                var testResult = context.Photographer.Where(rec => rec.Age > 325 && rec.Age <= 578);
+                startTime.Stop();
+                def = startTime.Elapsed.ToString();
+
+                //index
+                context.Photographer.FromSqlRaw("CREATE UNIQUE INDEX index_test ON photographer(name, age)");
+                startTime = System.Diagnostics.Stopwatch.StartNew();
+                var newResult = context.Photographer.Where(rec => rec.Age > 325 && rec.Age <= 578);
+                startTime.Stop();
+                index = startTime.Elapsed.ToString();
+                context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
+                context.Photographer.FromSqlRaw("DROP INDEX index_test");
+                context.SaveChanges();
+            }
+            return (def, index);
+        }
     }
 }
+
+

@@ -1,0 +1,20 @@
+﻿@model (string, string)
+
+<div class="text-center">
+    <p class="display-4" style="font-size: 36px;">
+        <span style="color: skyblue">SELECT</span>
+        m.name, m.age, m.status, p.rating, p.photodate, p.price<br />
+        <span style="color: skyblue">FROM</span>
+        photographer m<br />
+        <span style="color: skyblue">JOIN</span>
+        photo p
+        <span style="color: skyblue">ON</span>
+        m.id=p.photographerid<br />
+        <span style="color: skyblue">AND</span>
+        p.photodate
+        <span style="color: skyblue">BETWEEN</span>
+        '2020-1-1' <span style="color: skyblue">AND</span> '2025-1-1'
+    </p>
+    <h1 style="margin-top: 40px;" class="display-4">Default time: @(Model.Item1)</h1>
+    <h1 class="display-4">Index time: @(Model.Item2)</h1>
+</div>

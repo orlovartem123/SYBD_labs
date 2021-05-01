@@ -51,11 +51,5 @@ namespace SYBD.Controllers
             _storage.Delete(id);
             return RedirectToAction("PhotographerList", "Photographer");
         }
-
-        public IActionResult StartTestPhotographer()
-        {
-            var model = _storage.StartTest();
-            return View(model);
-        }
     }
 }

@@ -71,7 +71,7 @@ namespace SYBD.Storages
             }
         }
 
-        public (string def, string index) StartTest()
+        public (string def, string index) PhotographerTest()
         {
             string def = "";
             string index = "";
@@ -89,18 +89,114 @@ namespace SYBD.Storages
 
                 //default
                 var startTime = System.Diagnostics.Stopwatch.StartNew();
-                var testResult = context.Photographer.Where(rec => rec.Age > 325 && rec.Age <= 578);
+                var testResult = context.Photographer.FromSqlRaw("SELECT name, age, status FROM photographer");
                 startTime.Stop();
                 def = startTime.Elapsed.ToString();
 
                 //index
-                context.Photographer.FromSqlRaw("CREATE UNIQUE INDEX index_test ON photographer(name, age)");
+                context.Photographer.FromSqlRaw("CREATE UNIQUE INDEX index_test ON photographer(name, age, status)");
                 startTime = System.Diagnostics.Stopwatch.StartNew();
-                var newResult = context.Photographer.Where(rec => rec.Age > 325 && rec.Age <= 578);
+                var newResult = context.Photographer.FromSqlRaw("SELECT name, age, status FROM photographer");
                 startTime.Stop();
                 index = startTime.Elapsed.ToString();
                 context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
                 context.Photographer.FromSqlRaw("DROP INDEX index_test");
+                context.SaveChanges();
+            }
+            return (def, index);
+        }
+
+        public (string def, string index) PhotographerPhotoTest()
+        {
+            string def = "";
+            string index = "";
+            Random rnd = new Random();
+            using (var context = new PhotoGalleryContext())
+            {
+                for (int i = 0; i < 500; i++)
+                {
+                    var model = new Photographer();
+                    model.Name = "Test name" + i;
+                    model.Age = rnd.Next(600);
+                    model.Status = "TestStatus_" + i;
+                    Insert(model);
+                }
+
+                for (int i = 0; i < 500; i++)
+                {
+                    string date = rnd.Next(2005, 2035).ToString() + '-' + rnd.Next(1, 12) + '-' + rnd.Next(1, 28) + ' ' + rnd.Next(0, 23) + ':' + rnd.Next(0, 59);
+                    var model = new Photo();
+                    model.Photographerid = context.Photographer.Skip(rnd.Next(0, context.Photographer.Count())).FirstOrDefault()?.Id;
+                    model.Photodate = DateTime.Parse(date);
+                    model.Quality = "Test quality " + i;
+                    model.Rating = rnd.Next(200);
+                    model.Price = (decimal)rnd.NextDouble();
+                    context.Photo.Add(model);
+                }
+
+                //default
+                var startTime = System.Diagnostics.Stopwatch.StartNew();
+                var testResult = context.Photographer.FromSqlRaw("SELECT m.name, m.age, m.status, p.rating, p.photodate, p.price FROM photographer m JOIN photo p ON m.id = p.photographerid");
+                startTime.Stop();
+                def = startTime.Elapsed.ToString();
+
+                //index
+                context.Photographer.FromSqlRaw("CREATE UNIQUE INDEX index_test ON photographer(name, age, status); CREATE UNIQUE INDEX index_test2 ON photo(rating, photodate, price)");
+                startTime = System.Diagnostics.Stopwatch.StartNew();
+                var newResult = context.Photographer.FromSqlRaw("SELECT m.name, m.age, m.status, p.rating, p.photodate, p.price FROM photographer m JOIN photo p ON m.id = p.photographerid");
+                startTime.Stop();
+                index = startTime.Elapsed.ToString();
+                context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
+                context.Photo.RemoveRange(context.Photo.Where(rec => rec.Quality.Contains("Test")));
+                context.Photographer.FromSqlRaw("DROP INDEX index_test; DROP INDEX index_test2");
+                context.SaveChanges();
+            }
+            return (def, index);
+        }
+
+        public (string def, string index) PhotographerPhotoPeriodTest()
+        {
+            string def = "";
+            string index = "";
+            Random rnd = new Random();
+            using (var context = new PhotoGalleryContext())
+            {
+                for (int i = 0; i < 500; i++)
+                {
+                    var model = new Photographer();
+                    model.Name = "Test name" + i;
+                    model.Age = rnd.Next(600);
+                    model.Status = "TestStatus_" + i;
+                    Insert(model);
+                }
+
+                for (int i = 0; i < 500; i++)
+                {
+                    string date = rnd.Next(2005, 2035).ToString() + '-' + rnd.Next(1, 12) + '-' + rnd.Next(1, 28) + ' ' + rnd.Next(0, 23) + ':' + rnd.Next(0, 59);
+                    var model = new Photo();
+                    model.Photographerid = context.Photographer.Skip(rnd.Next(0, context.Photographer.Count())).FirstOrDefault()?.Id;
+                    model.Photodate = DateTime.Parse(date);
+                    model.Quality = "Test quality " + i;
+                    model.Rating = rnd.Next(200);
+                    model.Price = (decimal)rnd.NextDouble();
+                    context.Photo.Add(model);
+                }
+
+                //default
+                var startTime = System.Diagnostics.Stopwatch.StartNew();
+                var testResult = context.Photographer.FromSqlRaw("select m.name, m.age, m.status, p.rating, p.photodate, p.price from photographer m join photo p on m.id = p.photographerid and p.photodate between '2020-1-1' and '2025-1-1'");
+                startTime.Stop();
+                def = startTime.Elapsed.ToString();
+
+                //index
+                context.Photographer.FromSqlRaw("CREATE UNIQUE INDEX index_test ON photographer(name, age, status); CREATE UNIQUE INDEX index_test2 ON photo(rating, photodate, price)");
+                startTime = System.Diagnostics.Stopwatch.StartNew();
+                var newResult = context.Photographer.FromSqlRaw("SELECT m.name, m.age, m.status, p.rating, p.photodate, p.price FROM photographer m JOIN photo p ON m.id = p.photographerid");
+                startTime.Stop();
+                index = startTime.Elapsed.ToString();
+                context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
+                context.Photo.RemoveRange(context.Photo.Where(rec => rec.Quality.Contains("Test")));
+                context.Photographer.FromSqlRaw("DROP INDEX index_test; DROP INDEX index_test2");
                 context.SaveChanges();
             }
             return (def, index);

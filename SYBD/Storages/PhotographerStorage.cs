@@ -78,7 +78,7 @@ namespace SYBD.Storages
             Random rnd = new Random();
             using (var context = new PhotoGalleryContext())
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 5000; i++)
                 {
                     var model = new Photographer();
                     model.Name = "Test name" + i;
@@ -113,7 +113,7 @@ namespace SYBD.Storages
             Random rnd = new Random();
             using (var context = new PhotoGalleryContext())
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 5000; i++)
                 {
                     var model = new Photographer();
                     model.Name = "Test name" + i;
@@ -122,7 +122,7 @@ namespace SYBD.Storages
                     Insert(model);
                 }
 
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 5000; i++)
                 {
                     string date = rnd.Next(2005, 2035).ToString() + '-' + rnd.Next(1, 12) + '-' + rnd.Next(1, 28) + ' ' + rnd.Next(0, 23) + ':' + rnd.Next(0, 59);
                     var model = new Photo();
@@ -161,7 +161,7 @@ namespace SYBD.Storages
             Random rnd = new Random();
             using (var context = new PhotoGalleryContext())
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 5000; i++)
                 {
                     var model = new Photographer();
                     model.Name = "Test name" + i;
@@ -170,7 +170,7 @@ namespace SYBD.Storages
                     Insert(model);
                 }
 
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 5000; i++)
                 {
                     string date = rnd.Next(2005, 2035).ToString() + '-' + rnd.Next(1, 12) + '-' + rnd.Next(1, 28) + ' ' + rnd.Next(0, 23) + ':' + rnd.Next(0, 59);
                     var model = new Photo();

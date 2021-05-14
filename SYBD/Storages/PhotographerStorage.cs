@@ -84,7 +84,7 @@ namespace SYBD.Storages
                     model.Name = "Test name" + i;
                     model.Age = rnd.Next(600);
                     model.Status = "TestStatus_" + i;
-                    Insert(model);
+                    context.Photographer.Add(model);
                 }
 
                 //default
@@ -99,9 +99,6 @@ namespace SYBD.Storages
                 var newResult = context.Photographer.FromSqlRaw("SELECT name, age, status FROM photographer");
                 startTime.Stop();
                 index = startTime.Elapsed.ToString();
-                context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
-                context.Photographer.FromSqlRaw("DROP INDEX index_test");
-                context.SaveChanges();
             }
             return (def, index);
         }
@@ -119,7 +116,7 @@ namespace SYBD.Storages
                     model.Name = "Test name" + i;
                     model.Age = rnd.Next(600);
                     model.Status = "TestStatus_" + i;
-                    Insert(model);
+                    context.Photographer.Add(model);
                 }
 
                 for (int i = 0; i < 5000; i++)
@@ -146,10 +143,6 @@ namespace SYBD.Storages
                 var newResult = context.Photographer.FromSqlRaw("SELECT m.name, m.age, m.status, p.rating, p.photodate, p.price FROM photographer m JOIN photo p ON m.id = p.photographerid");
                 startTime.Stop();
                 index = startTime.Elapsed.ToString();
-                context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
-                context.Photo.RemoveRange(context.Photo.Where(rec => rec.Quality.Contains("Test")));
-                context.Photographer.FromSqlRaw("DROP INDEX index_test; DROP INDEX index_test2");
-                context.SaveChanges();
             }
             return (def, index);
         }
@@ -167,7 +160,7 @@ namespace SYBD.Storages
                     model.Name = "Test name" + i;
                     model.Age = rnd.Next(600);
                     model.Status = "TestStatus_" + i;
-                    Insert(model);
+                    context.Photographer.Add(model);
                 }
 
                 for (int i = 0; i < 5000; i++)
@@ -194,10 +187,6 @@ namespace SYBD.Storages
                 var newResult = context.Photographer.FromSqlRaw("SELECT m.name, m.age, m.status, p.rating, p.photodate, p.price FROM photographer m JOIN photo p ON m.id = p.photographerid");
                 startTime.Stop();
                 index = startTime.Elapsed.ToString();
-                context.Photographer.RemoveRange(context.Photographer.Where(rec => rec.Name.Contains("Test")));
-                context.Photo.RemoveRange(context.Photo.Where(rec => rec.Quality.Contains("Test")));
-                context.Photographer.FromSqlRaw("DROP INDEX index_test; DROP INDEX index_test2");
-                context.SaveChanges();
             }
             return (def, index);
         }

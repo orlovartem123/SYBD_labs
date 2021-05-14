@@ -30,7 +30,7 @@ namespace SYBD.Db
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Host=192.168.1.14;Port=5432;Database=PhotoGallery;Username=postgres;Password=65282174389");
+                optionsBuilder.UseNpgsql("Host=192.168.43.202;Port=5432;Database=PhotoGallery;Username=postgres;Password=65282174389");
             }
         }
 

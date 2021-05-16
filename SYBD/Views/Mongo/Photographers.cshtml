@@ -1,0 +1,53 @@
+﻿@using SYBD.Db.MongoDb.Models
+@model (string Time, IEnumerable<Photographer> Data)
+
+@{
+    ViewData["Title"] = "Photographer list";
+}
+<div class="text-center">
+    <div style="display: flex; justify-content: space-between;">
+        <h4 class="display-4">Photographers <span style="color: #449d35">Mongo</span></h4>
+        <h4 class="display-4">Time: <span style="color: #449d35">@(Model.Time)</span></h4>
+    </div>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Age)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

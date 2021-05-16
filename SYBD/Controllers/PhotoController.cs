@@ -18,6 +18,7 @@ namespace SYBD.Controllers
             _photoStorage = photoStorage;
             _genreStorage = genreStorage;
             _photographerStorage = photographerStorage;
+            Program.IsFresh = false;
         }
 
         public IActionResult PhotoList()

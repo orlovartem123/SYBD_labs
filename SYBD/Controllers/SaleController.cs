@@ -17,6 +17,7 @@ namespace SYBD.Controllers
             _saleStorage = saleStorage;
             _stockStorage = stockStorage;
             _photoStorage = photoStorage;
+            Program.IsFresh = false;
         }
 
         public IActionResult SaleList()

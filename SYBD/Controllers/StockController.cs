@@ -14,6 +14,7 @@ namespace SYBD.Controllers
         {
             _storage = storage;
             _repositoryStorage = repositoryStorage;
+            Program.IsFresh = false;
         }
 
         public IActionResult StockList()

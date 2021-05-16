@@ -10,6 +10,7 @@ namespace SYBD.Controllers
         public GenreController(IGenreStorage storage)
         {
             _storage = storage;
+            Program.IsFresh = false;
         }
 
         public IActionResult GenreList()

@@ -1,0 +1,71 @@
+﻿@using SYBD.Db.MongoDb.Models
+@model (string Time, IEnumerable<Photo> Data)
+
+@{
+    ViewData["Title"] = "Photos list";
+}
+<div class="text-center">
+    <div style="display: flex; justify-content: space-between;">
+        <h4 class="display-4">Photos <span style="color: #449d35">Mongo</span></h4>
+        <h4 class="display-4">Time: <span style="color: #449d35">@(Model.Time)</span></h4>
+    </div>
+</div>
+<div class="text-center" style="margin-top: 20px">
+    @{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Photo Date
+                    </th>
+                    <th>
+                        PhotographerId
+                    </th>
+                    <th>
+                        GenreId
+                    </th>
+                    <th>
+                        Quality
+                    </th>
+                    <th>
+                        Rating
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhotoDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhotographerId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GenreId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quality)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rating)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

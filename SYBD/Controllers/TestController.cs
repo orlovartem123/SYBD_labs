@@ -10,6 +10,7 @@ namespace SYBD.Controllers
         public TestController(IPhotographerStorage photographerStorage)
         {
             _photographerStorage = photographerStorage;
+            Program.IsFresh = false;
         }
 
         public IActionResult Photographer()

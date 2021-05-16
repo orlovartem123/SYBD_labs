@@ -17,6 +17,7 @@ namespace SYBD.Controllers
             _incomeStorage = incomeStorage;
             _stockStorage = stockStorage;
             _photoStorage = photoStorage;
+            Program.IsFresh = false;
         }
 
         public IActionResult IncomeList()

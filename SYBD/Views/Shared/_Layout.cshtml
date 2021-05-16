@@ -11,18 +11,34 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SYBD</a>
+                <div class="navbar-brand" style="display: flex;">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SYBD</a>
+                    @{ if (Program.IsFresh)
+                        { <img class="fluid" src="~/img/mongo.PNG" alt="Mongo is fresh"> } }
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <ul class="nav nav-tabs">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tests</a>
+                        <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mongo</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" asp-controller="Test" asp-action="Photographer">First test</a>
-                            <a class="dropdown-item" asp-controller="Test" asp-action="PhotographerPhoto">Second test</a>
-                            <a class="dropdown-item" asp-controller="Test" asp-action="PhotographerPhotoPeriod">Third test</a>
+                            @{
+                                if (Program.IsFresh)
+                                {
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="Photographers">Photographers</a>
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="Genres">Genres</a>
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="Sales">Sales</a>
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="Incomes">Incomes</a>
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="Stocks">Stocks</a>
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="Photos">Photos</a>
+                                }
+                                else
+                                {
+                                    <a class="dropdown-item" asp-controller="Mongo" asp-action="StartTransfer">Start Transfer</a>
+                                }
+                            }
                         </div>
                     </li>
                     <li class="nav-item dropdown">

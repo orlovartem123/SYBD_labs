@@ -5,6 +5,8 @@ namespace SYBD
 {
     public class Program
     {
+        public static bool IsFresh { get; set; } = false;
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

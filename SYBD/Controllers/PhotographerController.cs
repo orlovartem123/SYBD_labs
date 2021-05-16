@@ -11,6 +11,7 @@ namespace SYBD.Controllers
         public PhotographerController(IPhotographerStorage storage)
         {
             _storage = storage;
+            Program.IsFresh = false;
         }
 
         public IActionResult PhotographerList()

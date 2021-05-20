@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SYBD.Db;
 using SYBD.Db.MongoDb;
 using SYBD.Storages;
 using SYBD.Storages.Interfaces;
@@ -29,6 +30,7 @@ namespace SYBD
             services.AddTransient<IIncomeStorage, IncomeStorage>();
             services.AddTransient<ISaleStorage, SaleStorage>();
             services.AddTransient<DbService>();
+            services.AddTransient<RedisService>();
             services.AddControllersWithViews();
         }
 

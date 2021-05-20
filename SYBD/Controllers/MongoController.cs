@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SYBD.Db;
 using SYBD.Db.MongoDb;
+using SYBD.ViewModels;
 using System.Threading.Tasks;
 
 namespace SYBD.Controllers
 {
     public class MongoController : Controller
     {
+
         private readonly DbService db;
+
         public MongoController(DbService context)
         {
             db = context;
         }
 
-        public async Task<IActionResult> StartTransfer()
+        public IActionResult StartTransfer()
         {
-            await db.StartTransferData();
+            db.StartTransferData();
             Program.IsFresh = true;
             return RedirectToAction("Index", "Home");
         }
@@ -24,7 +28,7 @@ namespace SYBD.Controllers
             var startTime = System.Diagnostics.Stopwatch.StartNew();
             var data = await db.GetPhotographers();
             startTime.Stop();
-            return View((startTime.Elapsed.ToString(), data));
+            return View((startTime.Elapsed.ToString(), data.Item1));
         }
 
         public async Task<IActionResult> Genres()

@@ -71,10 +71,9 @@ namespace SYBD.Storages
             }
         }
 
-        public (string def, string index) PhotographerTest()
+        public string PhotographerTest()
         {
             string def = "";
-            string index = "";
             Random rnd = new Random();
             using (var context = new PhotoGalleryContext())
             {
@@ -86,21 +85,18 @@ namespace SYBD.Storages
                     model.Status = "TestStatus_" + i;
                     context.Photographer.Add(model);
                 }
-
+                context.SaveChanges();
+                Console.WriteLine(context.Photographer.Count());
                 //default
                 var startTime = System.Diagnostics.Stopwatch.StartNew();
-                var testResult = context.Photographer.FromSqlRaw("SELECT name, age, status FROM photographer");
+                var testResult = context.Photographer.FromSqlRaw("SELECT * FROM photographer");
                 startTime.Stop();
+                var toDelete = context.Photographer.Where(rec => rec.Name.Contains("Test"));
+                context.RemoveRange(toDelete);
+                context.SaveChanges();
                 def = startTime.Elapsed.ToString();
-
-                //index
-                context.Photographer.FromSqlRaw("CREATE UNIQUE INDEX index_test ON photographer(name, age, status)");
-                startTime = System.Diagnostics.Stopwatch.StartNew();
-                var newResult = context.Photographer.FromSqlRaw("SELECT name, age, status FROM photographer");
-                startTime.Stop();
-                index = startTime.Elapsed.ToString();
             }
-            return (def, index);
+            return def;
         }
 
         public (string def, string index) PhotographerPhotoTest()

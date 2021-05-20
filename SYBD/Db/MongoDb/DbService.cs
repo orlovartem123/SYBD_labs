@@ -34,10 +34,18 @@ namespace SYBD.Db.MongoDb
 
         #region Photographers
 
-        public async Task<IEnumerable<Photographer>> GetPhotographers()
+        public async Task<Tuple<IEnumerable<Photographer>, string>> GetPhotographers()
         {
             var builder = new FilterDefinitionBuilder<Photographer>();
-            return await Photographers.Find(builder.Empty).ToListAsync();
+            IEnumerable<Photographer> data = null;
+            var startTime = System.Diagnostics.Stopwatch.StartNew();
+            await Task.Run(() =>
+            {
+                data = Photographers.Find(builder.Empty).ToList();
+                startTime.Stop();
+                Console.WriteLine("mongo"+data.Count());
+            });
+            return Tuple.Create(data, startTime.Elapsed.ToString());
         }
 
         private void Create(IEnumerable<Photographer> photographers)
@@ -45,10 +53,10 @@ namespace SYBD.Db.MongoDb
             Photographers.InsertManyAsync(photographers);
         }
 
-        private async Task RemovePhotographers()
+        private void RemovePhotographers()
         {
             var builder = new FilterDefinitionBuilder<Photographer>();
-            await Photographers.DeleteManyAsync(builder.Empty);
+            Photographers.DeleteMany(builder.Empty);
         }
 
         private Photographer CreateMongoModel(Db.Models.Photographer pgPhotographer)
@@ -77,10 +85,10 @@ namespace SYBD.Db.MongoDb
             Genres.InsertManyAsync(genres);
         }
 
-        private async Task RemoveGenres()
+        private void RemoveGenres()
         {
             var builder = new FilterDefinitionBuilder<Genre>();
-            await Genres.DeleteManyAsync(builder.Empty);
+            Genres.DeleteMany(builder.Empty);
         }
 
         private Genre CreateMongoModel(Db.Models.Genre pgGenre)
@@ -107,10 +115,10 @@ namespace SYBD.Db.MongoDb
             Photos.InsertManyAsync(photos);
         }
 
-        private async Task RemovePhotos()
+        private void RemovePhotos()
         {
             var builder = new FilterDefinitionBuilder<Photo>();
-            await Photos.DeleteManyAsync(builder.Empty);
+            Photos.DeleteMany(builder.Empty);
         }
 
         private Photo CreateMongoModel(Db.Models.Photo pgPhoto)
@@ -142,10 +150,10 @@ namespace SYBD.Db.MongoDb
             Stocks.InsertManyAsync(stocks);
         }
 
-        private async Task RemoveStocks()
+        private void RemoveStocks()
         {
             var builder = new FilterDefinitionBuilder<Stock>();
-            await Stocks.DeleteManyAsync(builder.Empty);
+            Stocks.DeleteMany(builder.Empty);
         }
 
         private Stock CreateMongoModel(Db.Models.Stock pgStock)
@@ -175,10 +183,10 @@ namespace SYBD.Db.MongoDb
             Incomes.InsertManyAsync(incomes);
         }
 
-        private async Task RemoveIncomes()
+        private void RemoveIncomes()
         {
             var builder = new FilterDefinitionBuilder<Income>();
-            await Incomes.DeleteManyAsync(builder.Empty);
+            Incomes.DeleteMany(builder.Empty);
         }
 
         private Income CreateMongoModel(Db.Models.Income pgIncome)
@@ -208,10 +216,10 @@ namespace SYBD.Db.MongoDb
             Sales.InsertManyAsync(sales);
         }
 
-        private async Task RemoveSales()
+        private void RemoveSales()
         {
             var builder = new FilterDefinitionBuilder<Sale>();
-            await Sales.DeleteManyAsync(builder.Empty);
+            Sales.DeleteMany(builder.Empty);
         }
 
         private Sale CreateMongoModel(Db.Models.Sale pgSale)
@@ -228,14 +236,14 @@ namespace SYBD.Db.MongoDb
 
         #endregion
 
-        public async Task StartTransferData()
+        public void StartTransferData()
         {
-            await RemoveGenres();
-            await RemoveIncomes();
-            await RemovePhotos();
-            await RemoveSales();
-            await RemoveStocks();
-            await RemovePhotographers();
+            RemoveGenres();
+            RemoveIncomes();
+            RemovePhotos();
+            RemoveSales();
+            RemoveStocks();
+            RemovePhotographers();
             using (var context = new PhotoGalleryContext())
             {
                 Create(context.Photographer.Select(CreateMongoModel));
@@ -245,6 +253,7 @@ namespace SYBD.Db.MongoDb
                 Create(context.Income.Select(CreateMongoModel));
                 Create(context.Sale.Select(CreateMongoModel));
             }
+            var obj = new RedisService();
         }
     }
 }
